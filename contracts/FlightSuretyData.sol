@@ -302,15 +302,11 @@ contract FlightSuretyData {
         );
         require(
             required_amount == amount,
-            "The amount to be credited is not as espected"
+            "The amount to be credited is not as expected"
         );
-        require(
-            (passenger != address(0)) && (airline != address(0)),
-            "'accounts' must be  valid address."
-        );
-
-        // Store amount to be credited in passenger balance
-        balances[passenger] = amount;
+        // Checks the passenger
+        require(passenger == tx.origin, "Contracts not allowed");
+        address(uint160(passenger)).transfer(required_amount);
     }
 
     function withdraw(address passenger)
